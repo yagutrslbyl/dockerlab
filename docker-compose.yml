@@ -8,11 +8,10 @@ services:
 
     environment:
       SPRING_PROFILES_ACTIVE: docker
-
       DB_URL: jdbc:mysql://devops-db:3306/devopsapp?useSSL=false&allowPublicKeyRetrieval=true
       DB_USERNAME: root
       DB_PASSWORD: secret
-      DDL_AUTO: create
+      DDL_AUTO: update
 
     depends_on:
       db:
@@ -35,15 +34,15 @@ services:
     volumes:
       - devops-db-data:/var/lib/mysql
 
-    networks:
-      - devops-network
-
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
+
+    networks:
+      - devops-network
 
 networks:
   devops-network:
